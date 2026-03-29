@@ -1,4 +1,5 @@
 import os
+import threading
 import numpy as np
 import joblib
 from flask import Flask, request, jsonify, render_template
@@ -9,12 +10,23 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.join(BASE_DIR, '..', 'models')
 
+ML_MODEL_PATH = os.path.join(MODELS_DIR, 'ensemble_model.pkl')
+ML_SCALER_PATH = os.path.join(MODELS_DIR, 'scaler.pkl')
+ML_METADATA_PATH = os.path.join(MODELS_DIR, 'ml_metadata.pkl')
+
+NN_MODEL_PATH = os.path.join(MODELS_DIR, 'nn_model.keras')
+NN_SCALER_PATH = os.path.join(MODELS_DIR, 'scaler_nn.pkl')
+NN_METADATA_PATH = os.path.join(MODELS_DIR, 'nn_metadata.pkl')
+
+ml_lock = threading.Lock()
+nn_lock = threading.Lock()
+
 # ===== Load Models =====
 def _LoadML():
     try:
-        model    = joblib.load(os.path.join(MODELS_DIR, 'ensemble_model.pkl'))
-        scaler   = joblib.load(os.path.join(MODELS_DIR, 'scaler.pkl'))
-        metadata = joblib.load(os.path.join(MODELS_DIR, 'ml_metadata.pkl'))
+        model    = joblib.load(ML_MODEL_PATH)
+        scaler   = joblib.load(ML_SCALER_PATH)
+        metadata = joblib.load(ML_METADATA_PATH)
         return model, scaler, metadata
     except Exception as e:
         print(f'[WARN] ML model not loaded: {e}')
@@ -23,21 +35,72 @@ def _LoadML():
 def _LoadNN():
     try:
         import tensorflow as tf
-        model    = tf.keras.models.load_model(os.path.join(MODELS_DIR, 'nn_model.keras'))
-        scaler   = joblib.load(os.path.join(MODELS_DIR, 'scaler_nn.pkl'))
-        metadata = joblib.load(os.path.join(MODELS_DIR, 'nn_metadata.pkl'))
+        model    = tf.keras.models.load_model(NN_MODEL_PATH)
+        scaler   = joblib.load(NN_SCALER_PATH)
+        metadata = joblib.load(NN_METADATA_PATH)
         return model, scaler, metadata
     except Exception as e:
         print(f'[WARN] NN model not loaded: {e}')
         return None, None, None
 
-ensemble_model, ml_scaler, ml_meta = _LoadML()
-nn_model,       nn_scaler, nn_meta = _LoadNN()
+def _LoadMetadata(metadata_path):
+    try:
+        return joblib.load(metadata_path)
+    except Exception as e:
+        print(f'[WARN] Metadata not loaded: {e}')
+        return None
+
+def _FilesExist(*file_paths):
+    return all(os.path.exists(file_path) for file_path in file_paths)
+
+ensemble_model = None
+ml_scaler = None
+ml_meta = _LoadMetadata(ML_METADATA_PATH)
+
+nn_model = None
+nn_scaler = None
+nn_meta = _LoadMetadata(NN_METADATA_PATH)
+
+def _EnsureMLLoaded():
+    global ensemble_model, ml_scaler, ml_meta
+
+    if ensemble_model is not None and ml_scaler is not None and ml_meta is not None:
+        return True
+
+    with ml_lock:
+        if ensemble_model is not None and ml_scaler is not None and ml_meta is not None:
+            return True
+
+        ensemble_model, ml_scaler, loaded_meta = _LoadML()
+        if loaded_meta is not None:
+            ml_meta = loaded_meta
+
+    return ensemble_model is not None and ml_scaler is not None and ml_meta is not None
+
+def _EnsureNNLoaded():
+    global nn_model, nn_scaler, nn_meta
+
+    if nn_model is not None and nn_scaler is not None and nn_meta is not None:
+        return True
+
+    with nn_lock:
+        if nn_model is not None and nn_scaler is not None and nn_meta is not None:
+            return True
+
+        nn_model, nn_scaler, loaded_meta = _LoadNN()
+        if loaded_meta is not None:
+            nn_meta = loaded_meta
+
+    return nn_model is not None and nn_scaler is not None and nn_meta is not None
 
 # ===== Pages =====
 @app.route('/')
 def Index():
     return render_template('ml-explanation.html')
+
+@app.route('/favicon.ico')
+def Favicon():
+    return ('', 204)
 
 @app.route('/ml')
 def MlExplanation():
@@ -51,18 +114,18 @@ def NnExplanation():
 def MlDemo():
     feature_cols = ml_meta['feature_cols'] if ml_meta else []
     return render_template('ml-demo.html', features=feature_cols,
-                           model_ready=(ensemble_model is not None))
+                           model_ready=_FilesExist(ML_MODEL_PATH, ML_SCALER_PATH, ML_METADATA_PATH))
 
 @app.route('/demo/nn')
 def NnDemo():
     feature_cols = nn_meta['feature_cols'] if nn_meta else []
     return render_template('nn-demo.html', features=feature_cols,
-                           model_ready=(nn_model is not None))
+                           model_ready=_FilesExist(NN_MODEL_PATH, NN_SCALER_PATH, NN_METADATA_PATH))
 
 # ===== Prediction APIs =====
 @app.route('/predict/ml', methods=['POST'])
 def PredictMl():
-    if ensemble_model is None:
+    if not _EnsureMLLoaded():
         return jsonify({'error': 'โมเดลยังไม่พร้อม กรุณารัน notebook ก่อน'}), 503
     try:
         request_body = request.get_json(force=True)
@@ -114,7 +177,7 @@ def PredictMl():
 
 @app.route('/predict/nn', methods=['POST'])
 def PredictNn():
-    if nn_model is None:
+    if not _EnsureNNLoaded():
         return jsonify({'error': 'โมเดลยังไม่พร้อม กรุณารัน notebook ก่อน'}), 503
     try:
         request_body = request.get_json(force=True)
