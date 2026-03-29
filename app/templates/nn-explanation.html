@@ -1,0 +1,359 @@
+{% extends "base.html" %} {% block title %}Neural Network{% endblock %} {% block
+content %}
+<!-- Hero -->
+<div class="hero-section hero-nn">
+  <div class="container text-center">
+    <h1><i class="bi bi-cpu me-3"></i>Neural Network (MLP)</h1>
+    <p class="lead">EPL Match Result Prediction — Home Win / Draw / Away Win</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <!-- Dataset -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-database me-2 text-success"></i>Dataset: English Premier
+      League
+    </h2>
+    <div class="card">
+      <div class="card-body">
+        <div class="row g-4">
+          <div class="col-md-5">
+            <table class="table table-sm table-bordered mb-0">
+              <tbody>
+                <tr>
+                  <th>ขนาดข้อมูล</th>
+                  <td>380 rows (ฤดูกาล 2020–2021)</td>
+                </tr>
+                <tr>
+                  <th>แหล่งที่มา</th>
+                  <td>
+                    <a
+                      href="https://www.kaggle.com/datasets/saife245/english-premier-league"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Kaggle — EPL Matches</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <th>Target</th>
+                  <td>
+                    <code>H</code> = Home Win · <code>D</code> = Draw ·
+                    <code>A</code> = Away Win
+                  </td>
+                </tr>
+                <tr>
+                  <th>Task</th>
+                  <td>Multi-class Classification (3 คลาส)</td>
+                </tr>
+                <tr>
+                  <th>Split</th>
+                  <td>Train 70% / Val 15% / Test 15%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-7">
+            <h6 class="fw-bold text-danger">
+              <i class="bi bi-exclamation-triangle me-1"></i>ปัญหาใน Dataset
+            </h6>
+            <ul class="small mb-0">
+              <li>
+                <strong>Betting odds</strong>: มีคอลัมน์ odds หลายสิบคอลัมน์
+                ต้องเลือกเฉพาะ match stats
+              </li>
+              <li><strong>HS / AS</strong>: Home/Away Shots — ครบทุกนัด</li>
+              <li><strong>HST / AST</strong>: Shots on Target — ครบทุกนัด</li>
+              <li><strong>HC / AC</strong>: Corners — ครบทุกนัด</li>
+              <li>
+                <strong>Sample size</strong>: 380 นัด (1 ฤดูกาล) เป็นข้อมูลน้อย
+                อาจบิดให้โมเดล generalize ได้จำกัด
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Theory -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-book me-2 text-info"></i>ทฤษฎี MLP Neural Network
+    </h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header text-white" style="background: #7c3aed">
+            <i class="bi bi-diagram-3 me-2"></i>สถาปัตยกรรม
+          </div>
+          <div class="card-body small">
+            <p>
+              <strong>Multi-Layer Perceptron (MLP)</strong> คือ Neural Network
+              ชนิดพื้นฐาน ประกอบด้วย:
+            </p>
+            <div class="table-responsive">
+              <table class="table table-sm table-bordered text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Layer</th>
+                    <th>Type</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Input</td>
+                    <td>—</td>
+                    <td>N features</td>
+                  </tr>
+                  <tr>
+                    <td>Hidden 1</td>
+                    <td>Dense 256</td>
+                    <td>ReLU + BatchNorm + Dropout(0.3)</td>
+                  </tr>
+                  <tr>
+                    <td>Hidden 2</td>
+                    <td>Dense 128</td>
+                    <td>ReLU + BatchNorm + Dropout(0.3)</td>
+                  </tr>
+                  <tr>
+                    <td>Hidden 3</td>
+                    <td>Dense 64</td>
+                    <td>ReLU + BatchNorm + Dropout(0.15)</td>
+                  </tr>
+                  <tr>
+                    <td>Output</td>
+                    <td>Dense 3</td>
+                    <td>Softmax</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header text-white" style="background: #0284c7">
+            <i class="bi bi-gear me-2"></i>Training Config
+          </div>
+          <div class="card-body small">
+            <table class="table table-sm">
+              <tbody>
+                <tr>
+                  <th>Optimizer</th>
+                  <td>Adam (lr=0.001)</td>
+                </tr>
+                <tr>
+                  <th>Loss</th>
+                  <td>Categorical Crossentropy</td>
+                </tr>
+                <tr>
+                  <th>Epochs</th>
+                  <td>200 (with EarlyStopping)</td>
+                </tr>
+                <tr>
+                  <th>Batch Size</th>
+                  <td>32</td>
+                </tr>
+                <tr>
+                  <th>EarlyStopping</th>
+                  <td>patience=25, monitor=val_accuracy</td>
+                </tr>
+                <tr>
+                  <th>ReduceLROnPlateau</th>
+                  <td>factor=0.5, patience=10</td>
+                </tr>
+                <tr>
+                  <th>ModelCheckpoint</th>
+                  <td>save_best_only=True</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Component Explanations -->
+  <section class="mb-5">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card h-100 border-info">
+          <div class="card-body small">
+            <h6 class="text-info fw-bold">
+              <i class="bi bi-layers me-1"></i>Batch Normalization
+            </h6>
+            <p class="mb-0">
+              Normalize activations ในแต่ละ batch ทำให้ training เสถียรขึ้น
+              เร็วขึ้น และ Gradient ไหลได้ดีขึ้น
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-warning">
+          <div class="card-body small">
+            <h6 class="text-warning fw-bold">
+              <i class="bi bi-droplet me-1"></i>Dropout
+            </h6>
+            <p class="mb-0">
+              สุ่มปิด neurons บางส่วนระหว่างเทรน ป้องกัน Overfitting ทำให้โมเดล
+              generalize ได้ดีขึ้น
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-success">
+          <div class="card-body small">
+            <h6 class="text-success fw-bold">
+              <i class="bi bi-activity me-1"></i>ReLU Activation
+            </h6>
+            <p class="mb-0">
+              f(x) = max(0, x) แก้ปัญหา Vanishing Gradient ทำให้ Deep Network
+              เทรนได้มีประสิทธิภาพ
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-code-slash me-2 text-warning"></i>โค้ดสร้าง MLP
+    </h2>
+    <div class="card">
+      <div class="card-header bg-dark text-light">
+        <i class="bi bi-filetype-py me-2"></i>03_neural_network.ipynb
+      </div>
+      <div class="card-body p-0">
+        <pre
+          class="m-0 rounded-0"
+        ><code>from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, BatchNormalization
+from tensorflow.keras.optimizers import Adam
+
+model = Sequential([
+    Dense(256, activation='relu', input_shape=(n_features,)),
+    BatchNormalization(),
+    Dropout(0.3),
+
+    Dense(128, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.3),
+
+    Dense(64, activation='relu'),
+    BatchNormalization(),
+    Dropout(0.15),
+
+    Dense(3, activation='softmax')   # H / D / A
+])
+
+model.compile(
+    optimizer=Adam(learning_rate=0.001),
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+history = model.fit(
+    X_train, y_train_ohe,
+    validation_data=(X_val, y_val_ohe),
+    epochs=200, batch_size=32,
+    callbacks=[EarlyStopping(patience=25), ModelCheckpoint(...)]
+)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-graph-up me-2 text-danger"></i>ผลลัพธ์โมเดล
+    </h2>
+    <div class="alert alert-warning small">
+      <i class="bi bi-info-circle me-1"></i>รัน
+      <strong>03_neural_network.ipynb</strong> ก่อนเพื่อ generate ภาพด้านล่าง
+    </div>
+    <div class="row g-4">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">Loss / Accuracy Curves</div>
+          <div class="card-body text-center">
+            <img
+              src="{{ url_for('static', filename='images/nn_loss_accuracy.png') }}"
+              alt="Loss Accuracy Curve"
+              class="img-fluid rounded"
+              onerror="
+                this.replaceWith(
+                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
+                )
+              "
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">Confusion Matrix</div>
+          <div class="card-body text-center">
+            <img
+              src="{{ url_for('static', filename='images/nn_confusion_matrix.png') }}"
+              alt="Confusion Matrix"
+              class="img-fluid rounded"
+              onerror="
+                this.replaceWith(
+                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
+                )
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- References -->
+  <section class="mb-3">
+    <h2 class="section-heading">
+      <i class="bi bi-journal-text me-2"></i>อ้างอิง
+    </h2>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <a
+          href="https://www.kaggle.com/datasets/saife245/english-premier-league"
+          target="_blank"
+          rel="noopener noreferrer"
+          >English Premier League Dataset — Kaggle</a
+        >
+      </li>
+      <li class="list-group-item">
+        <a
+          href="https://www.tensorflow.org/api_docs/python/tf/keras"
+          target="_blank"
+          rel="noopener noreferrer"
+          >TensorFlow / Keras Documentation</a
+        >
+      </li>
+      <li class="list-group-item">
+        Goodfellow, I., Bengio, Y. & Courville, A. (2016).
+        <em>Deep Learning</em>. MIT Press.
+      </li>
+      <li class="list-group-item">
+        Ioffe, S. & Szegedy, C. (2015). <em>Batch Normalization</em>. ICML 2015.
+      </li>
+      <li class="list-group-item">
+        Srivastava, N. et al. (2014).
+        <em
+          >Dropout: A Simple Way to Prevent Neural Networks from Overfitting</em
+        >. JMLR.
+      </li>
+    </ul>
+  </section>
+</div>
+{% endblock %}

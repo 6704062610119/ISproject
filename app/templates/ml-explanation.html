@@ -1,0 +1,311 @@
+{% extends "base.html" %} {% block title %}Machine Learning{% endblock %} {%
+block content %}
+<!-- Hero -->
+<div class="hero-section hero-ml">
+  <div class="container text-center">
+    <h1><i class="bi bi-diagram-3 me-3"></i>Ensemble Machine Learning</h1>
+    <p class="lead">
+      FIFA 21 Player Position Classification — GK / DEF / MID / FWD
+    </p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <!-- Dataset -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-database me-2 text-success"></i>Dataset: FIFA 21 Messy Raw
+    </h2>
+    <div class="card">
+      <div class="card-body">
+        <div class="row g-4">
+          <div class="col-md-5">
+            <table class="table table-sm table-bordered mb-0">
+              <tbody>
+                <tr>
+                  <th>ขนาดข้อมูล</th>
+                  <td>18,979 rows × 77 columns</td>
+                </tr>
+                <tr>
+                  <th>แหล่งที่มา</th>
+                  <td>
+                    <a
+                      href="https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Kaggle — FIFA 21</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <th>Target</th>
+                  <td>Position Group: <code>GK / DEF / MID / FWD</code></td>
+                </tr>
+                <tr>
+                  <th>Task</th>
+                  <td>Multi-class Classification (4 คลาส)</td>
+                </tr>
+                <tr>
+                  <th>Split</th>
+                  <td>Train 70% / Val 15% / Test 15%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-7">
+            <h6 class="fw-bold text-danger">
+              <i class="bi bi-exclamation-triangle me-1"></i>ปัญหาใน Messy Data
+            </h6>
+            <ul class="small mb-0">
+              <li>
+                <strong>Height/Weight</strong>: มีทั้ง cm/ft และ kg/lbs ปนกัน
+              </li>
+              <li>
+                <strong>Value/Wage</strong>: format "€1.6M", "€200K"
+                ต้องแปลงเป็น float
+              </li>
+              <li><strong>W/F, SM, IR</strong>: มีสัญลักษณ์ ★ ต้องลบออก</li>
+              <li>
+                <strong>Missing Values</strong>: Release Clause, Hits, Loan Date
+                End
+              </li>
+              <li>
+                <strong>Contract</strong>: มีทั้ง date / "Free" / "On Loan"
+                ปนกัน
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Theory -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-book me-2 text-info"></i>ทฤษฎี Ensemble Learning
+    </h2>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="card model-card rf h-100">
+          <div class="card-header bg-primary text-white">
+            <i class="bi bi-tree me-2"></i>Random Forest
+          </div>
+          <div class="card-body small">
+            <p>
+              สร้าง Decision Trees หลายต้นด้วย
+              <strong>Bootstrap Sampling</strong> และ
+              <strong>Random Feature Selection</strong> แล้วรวมผลด้วย Majority
+              Vote
+            </p>
+            <p class="mb-1">
+              <strong>ข้อดี:</strong> ทนต่อ Overfitting · ตีความ Feature
+              Importance ได้
+            </p>
+            <code>n_estimators, max_depth, min_samples_split</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card model-card xgb h-100">
+          <div class="card-header text-white" style="background: #dd8452">
+            <i class="bi bi-lightning me-2"></i>XGBoost
+          </div>
+          <div class="card-body small">
+            <p>
+              Gradient Boosting ที่ optimize ด้วย
+              <strong>Second-Order Taylor Expansion</strong> พร้อม L1/L2
+              Regularization
+            </p>
+            <p class="mb-1">
+              <strong>ข้อดี:</strong> ความแม่นยำสูง · Parallel Training
+            </p>
+            <code>learning_rate, subsample, colsample_bytree</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card model-card lgb h-100">
+          <div class="card-header bg-success text-white">
+            <i class="bi bi-speedometer me-2"></i>LightGBM
+          </div>
+          <div class="card-body small">
+            <p>
+              Gradient Boosting แบบ <strong>Leaf-wise Tree Growth</strong> ใช้
+              Histogram เร็วกว่า XGBoost หลายเท่า
+            </p>
+            <p class="mb-1"><strong>ข้อดี:</strong> ฝึกเร็ว · Memory น้อย</p>
+            <code>num_leaves, min_data_in_leaf</code>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card model-card stack h-100">
+          <div class="card-header bg-danger text-white">
+            <i class="bi bi-stack me-2"></i>Stacking
+          </div>
+          <div class="card-body small">
+            <p>
+              รวม 3 โมเดลข้างต้นเป็น <strong>Base Learners</strong> แล้วใช้
+              <strong>Logistic Regression</strong> เป็น Meta-Learner
+            </p>
+            <p class="mb-1"><strong>ข้อดี:</strong> ใช้จุดแข็งของทุกโมเดล</p>
+            <code>cv=5, stack_method='predict_proba'</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preprocessing Code -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-code-slash me-2 text-warning"></i>Preprocessing Pipeline
+    </h2>
+    <div class="card">
+      <div class="card-header bg-dark text-light">
+        <i class="bi bi-filetype-py me-2"></i>01_eda_preprocessing.ipynb — FIFA
+        21
+      </div>
+      <div class="card-body p-0">
+        <pre class="m-0 rounded-0"><code># แปลง Height → cm
+def parse_height(h):
+    if 'cm' in str(h): return float(str(h).replace('cm',''))
+    elif "'" in str(h):
+        parts = str(h).replace('"','').split("'")
+        return round(int(parts[0])*30.48 + int(parts[1] or 0)*2.54, 1)
+
+# แปลง Value/Wage → float
+def parse_money(val):
+    val = str(val).replace('€','')
+    if 'M' in val: return float(val.replace('M','')) * 1_000_000
+    if 'K' in val: return float(val.replace('K','')) * 1_000
+    return float(val)
+
+# ลบ ★ จาก W/F, SM, IR
+for col in ['W/F','SM','IR']:
+    df[col] = df[col].str.replace('★','').str.strip()
+    df[col] = pd.to_numeric(df[col], errors='coerce')
+
+# Train/Val/Test Split  70/15/15
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.30, stratify=y)
+X_val,   X_test, y_val,   y_test = train_test_split(X_temp, y_temp, test_size=0.50, stratify=y_temp)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics / Charts -->
+  <section class="mb-5">
+    <h2 class="section-heading">
+      <i class="bi bi-bar-chart me-2 text-danger"></i>ผลลัพธ์โมเดล
+    </h2>
+    <div class="alert alert-warning small" role="alert">
+      <i class="bi bi-info-circle me-1"></i>รัน
+      <strong>02_ensemble_ml.ipynb</strong> ก่อนเพื่อ generate ภาพด้านล่าง
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">Confusion Matrices</div>
+          <div class="card-body text-center">
+            <img
+              src="{{ url_for('static', filename='images/ml_confusion_matrix.png') }}"
+              alt="Confusion Matrix"
+              class="img-fluid rounded"
+              onerror="
+                this.replaceWith(
+                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
+                )
+              "
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">Feature Importance</div>
+          <div class="card-body text-center">
+            <img
+              src="{{ url_for('static', filename='images/ml_feature_importance.png') }}"
+              alt="Feature Importance"
+              class="img-fluid rounded"
+              onerror="
+                this.replaceWith(
+                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
+                )
+              "
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">Model Comparison</div>
+          <div class="card-body text-center">
+            <img
+              src="{{ url_for('static', filename='images/ml_model_comparison.png') }}"
+              alt="Model Comparison"
+              class="img-fluid rounded"
+              onerror="
+                this.replaceWith(
+                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
+                )
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- References -->
+  <section class="mb-3">
+    <h2 class="section-heading">
+      <i class="bi bi-journal-text me-2"></i>อ้างอิง
+    </h2>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <a
+          href="https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring"
+          target="_blank"
+          rel="noopener noreferrer"
+          >FIFA 21 Messy Raw Dataset — Kaggle</a
+        >
+      </li>
+      <li class="list-group-item">
+        <a
+          href="https://scikit-learn.org/stable/modules/ensemble.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          >scikit-learn: Ensemble Methods Documentation</a
+        >
+      </li>
+      <li class="list-group-item">
+        <a
+          href="https://xgboost.readthedocs.io/en/stable/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >XGBoost Documentation</a
+        >
+      </li>
+      <li class="list-group-item">
+        <a
+          href="https://lightgbm.readthedocs.io/en/latest/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >LightGBM Documentation</a
+        >
+      </li>
+      <li class="list-group-item">
+        Chen, T. & Guestrin, C. (2016).
+        <em>XGBoost: A Scalable Tree Boosting System</em>. KDD 2016.
+      </li>
+      <li class="list-group-item">
+        Ke, G. et al. (2017).
+        <em>LightGBM: A Highly Efficient Gradient Boosting Decision Tree</em>.
+        NeurIPS 2017.
+      </li>
+    </ul>
+  </section>
+</div>
+{% endblock %}
