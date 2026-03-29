@@ -98,6 +98,7 @@ git push
 ค่าที่แนะนำ:
 
 - `Environment`: `Python 3`
+- `Python Version`: ใช้จากไฟล์ `.python-version` ซึ่งโปรเจกต์นี้กำหนดเป็น `3.11.11`
 - `Build Command`: `pip install -r requirements.txt`
 - `Start Command`: `gunicorn --chdir app app:app`
 
@@ -114,8 +115,14 @@ git push
 ### 5. หมายเหตุสำคัญ
 
 - Render ต้องการให้ web service bind กับ `0.0.0.0` และใช้พอร์ตจาก environment ซึ่งโปรเจกต์นี้รองรับแล้ว
+- ถ้าไม่กำหนด Python version, Render service ใหม่อาจใช้ Python `3.14.x` ซึ่งยังไม่รองรับ TensorFlow ของโปรเจกต์นี้
 - ถ้า build ช้าในครั้งแรกเป็นเรื่องปกติ เพราะมีแพ็กเกจ ML/DL เช่น TensorFlow, XGBoost และ LightGBM
 - ถ้า deploy สำเร็จแต่กดทำนายไม่ได้ ให้เช็ก log ก่อนว่าโหลดไฟล์ใน `models/` ครบหรือไม่
+
+### 6. ถ้า service บน Render ถูกสร้างไปแล้ว
+
+- เข้าไปที่ `Environment` แล้วเพิ่มตัวแปร `PYTHON_VERSION=3.11.11`
+- จากนั้นกด `Manual Deploy` หรือ `Clear build cache & deploy` ใหม่อีกครั้ง
 
 ---
 
