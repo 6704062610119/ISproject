@@ -100,7 +100,12 @@ git push
 - `Environment`: `Python 3`
 - `Python Version`: ใช้จากไฟล์ `.python-version` ซึ่งโปรเจกต์นี้กำหนดเป็น `3.11.11`
 - `Build Command`: `pip install -r requirements.txt`
-- `Start Command`: `gunicorn --chdir app app:app`
+- `Start Command`: `gunicorn --chdir app --workers 1 --timeout 120 app:app`
+
+หมายเหตุ:
+
+- ในหน้า Render Dashboard ห้ามใส่ `web:` นำหน้า `Start Command`
+- `web:` ใช้เฉพาะรูปแบบของไฟล์ `Procfile` เท่านั้น ไม่ใช่ shell command ที่ Render จะรันตรง ๆ
 
 ### 4. หลัง deploy เสร็จ
 
