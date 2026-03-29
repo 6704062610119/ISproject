@@ -1,0 +1,5 @@
+Model,Accuracy,Precision,Recall,F1-Score
+Random Forest,0.888,0.8894,0.888,0.888
+XGBoost,0.8967,0.8971,0.8967,0.8967
+LightGBM,0.8999,0.9005,0.8999,0.8999
+Stacking Classifier,0.8936,0.8944,0.8936,0.8936
