@@ -20,6 +20,8 @@ NN_METADATA_PATH = os.path.join(MODELS_DIR, 'nn_metadata.pkl')
 
 ml_lock = threading.Lock()
 nn_lock = threading.Lock()
+ml_warmup_started = False
+nn_warmup_started = False
 
 # ===== Load Models =====
 def _LoadML():
@@ -93,9 +95,28 @@ def _EnsureNNLoaded():
 
     return nn_model is not None and nn_scaler is not None and nn_meta is not None
 
+def _StartMLWarmup():
+    global ml_warmup_started
+
+    if ml_warmup_started or not _FilesExist(ML_MODEL_PATH, ML_SCALER_PATH, ML_METADATA_PATH):
+        return
+
+    ml_warmup_started = True
+    threading.Thread(target=_EnsureMLLoaded, daemon=True).start()
+
+def _StartNNWarmup():
+    global nn_warmup_started
+
+    if nn_warmup_started or not _FilesExist(NN_MODEL_PATH, NN_SCALER_PATH, NN_METADATA_PATH):
+        return
+
+    nn_warmup_started = True
+    threading.Thread(target=_EnsureNNLoaded, daemon=True).start()
+
 # ===== Pages =====
 @app.route('/')
 def Index():
+    _StartMLWarmup()
     return render_template('ml-explanation.html')
 
 @app.route('/favicon.ico')
@@ -104,20 +125,24 @@ def Favicon():
 
 @app.route('/ml')
 def MlExplanation():
+    _StartMLWarmup()
     return render_template('ml-explanation.html')
 
 @app.route('/nn')
 def NnExplanation():
+    _StartNNWarmup()
     return render_template('nn-explanation.html')
 
 @app.route('/demo/ml')
 def MlDemo():
+    _StartMLWarmup()
     feature_cols = ml_meta['feature_cols'] if ml_meta else []
     return render_template('ml-demo.html', features=feature_cols,
                            model_ready=_FilesExist(ML_MODEL_PATH, ML_SCALER_PATH, ML_METADATA_PATH))
 
 @app.route('/demo/nn')
 def NnDemo():
+    _StartNNWarmup()
     feature_cols = nn_meta['feature_cols'] if nn_meta else []
     return render_template('nn-demo.html', features=feature_cols,
                            model_ready=_FilesExist(NN_MODEL_PATH, NN_SCALER_PATH, NN_METADATA_PATH))
@@ -198,7 +223,7 @@ def PredictNn():
         feature_matrix  = np.array(feature_values, dtype=float).reshape(1, -1)
         scaled_features = nn_scaler.transform(feature_matrix)
 
-        probabilities   = nn_model.predict(scaled_features)[0].tolist()
+        probabilities   = nn_model.predict(scaled_features, verbose=0)[0].tolist()
         predicted_index = int(np.argmax(probabilities))
 
         result_label_map = {'H': 'Home Win', 'D': 'Draw', 'A': 'Away Win'}
