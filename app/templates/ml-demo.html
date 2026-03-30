@@ -32,162 +32,58 @@
             <div class="row g-3">
               <div class="col-6">
                 <label for="Age">Age</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="Age"
-                  name="Age"
-                  value="25"
-                  min="15"
-                  max="45"
-                />
+                <input type="number" class="form-control" id="Age" name="Age" value="25" min="15" max="45" />
               </div>
               <div class="col-6">
                 <label for="POT">Potential (POT)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="POT"
-                  name="POT"
-                  value="82"
-                  min="40"
-                  max="99"
-                />
+                <input type="number" class="form-control" id="POT" name="POT" value="82" min="40" max="99" />
               </div>
               <div class="col-6">
                 <label for="Height">Height (cm)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="Height"
-                  name="Height"
-                  value="180"
-                  min="150"
-                  max="210"
-                />
+                <input type="number" class="form-control" id="Height" name="Height" value="180" min="150" max="210" />
               </div>
               <div class="col-6">
                 <label for="Weight">Weight (kg)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="Weight"
-                  name="Weight"
-                  value="75"
-                  min="50"
-                  max="120"
-                />
+                <input type="number" class="form-control" id="Weight" name="Weight" value="75" min="50" max="120" />
               </div>
               <div class="col-4">
                 <label for="WF">Weak Foot (W/F)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="WF"
-                  name="W/F"
-                  value="3"
-                  min="1"
-                  max="5"
-                />
+                <input type="number" class="form-control" id="WF" name="W/F" value="3" min="1" max="5" />
               </div>
               <div class="col-4">
                 <label for="SM">Skill Moves (SM) ⭐</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="SM"
-                  name="SM"
-                  value="3"
-                  min="1"
-                  max="5"
-                />
+                <input type="number" class="form-control" id="SM" name="SM" value="3" min="1" max="5" />
               </div>
               <div class="col-4">
                 <label for="IR">Intl. Rep (IR) ⭐</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="IR"
-                  name="IR"
-                  value="2"
-                  min="1"
-                  max="5"
-                />
+                <input type="number" class="form-control" id="IR" name="IR" value="2" min="1" max="5" />
               </div>
               <!-- Hidden fields required by model -->
               <input type="hidden" id="Value" name="Value" value="10000000" />
               <input type="hidden" id="Wage" name="Wage" value="50000" />
               <div class="col-4">
                 <label for="PAC">Pace (PAC)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="PAC"
-                  name="PAC"
-                  value="75"
-                  min="1"
-                  max="99"
-                />
+                <input type="number" class="form-control" id="PAC" name="PAC" value="75" min="1" max="99" />
               </div>
               <div class="col-4">
                 <label for="SHO">Shooting (SHO)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="SHO"
-                  name="SHO"
-                  value="70"
-                  min="1"
-                  max="99"
-                />
+                <input type="number" class="form-control" id="SHO" name="SHO" value="70" min="1" max="99" />
               </div>
               <div class="col-4">
                 <label for="PAS">Passing (PAS)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="PAS"
-                  name="PAS"
-                  value="72"
-                  min="1"
-                  max="99"
-                />
+                <input type="number" class="form-control" id="PAS" name="PAS" value="72" min="1" max="99" />
               </div>
               <div class="col-4">
                 <label for="DRI">Dribbling (DRI)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="DRI"
-                  name="DRI"
-                  value="74"
-                  min="1"
-                  max="99"
-                />
+                <input type="number" class="form-control" id="DRI" name="DRI" value="74" min="1" max="99" />
               </div>
               <div class="col-4">
                 <label for="DEF">Defense (DEF)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="DEF"
-                  name="DEF"
-                  value="65"
-                  min="1"
-                  max="99"
-                />
+                <input type="number" class="form-control" id="DEF" name="DEF" value="65" min="1" max="99" />
               </div>
               <div class="col-4">
                 <label for="PHY">Physical (PHY)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="PHY"
-                  name="PHY"
-                  value="70"
-                  min="1"
-                  max="99"
-                />
+                <input type="number" class="form-control" id="PHY" name="PHY" value="70" min="1" max="99" />
               </div>
             </div>
 
@@ -195,48 +91,23 @@
             <div class="mt-3">
               <small class="text-muted fw-bold">ตัวอย่าง:</small>
               <div class="d-flex gap-2 flex-wrap mt-1">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary"
-                  onclick="SetPreset('gk')"
-                >
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="SetPreset('gk')">
                   🧤 GK
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary"
-                  onclick="SetPreset('def')"
-                >
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="SetPreset('def')">
                   🛡️ DEF
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary"
-                  onclick="SetPreset('mid')"
-                >
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="SetPreset('mid')">
                   ⚡ MID
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary"
-                  onclick="SetPreset('fwd')"
-                >
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="SetPreset('fwd')">
                   ⚽ FWD
                 </button>
               </div>
             </div>
 
-            <button
-              type="submit"
-              class="btn btn-predict btn-primary text-white w-100 mt-4"
-              {%
-              if
-              not
-              model_ready
-              %}disabled{%
-              endif
-              %}
-            >
+            <button type="submit" class="btn btn-predict btn-primary text-white w-100 mt-4" {% if not model_ready
+              %}disabled{% endif %}>
               <i class="bi bi-magic me-2"></i>ทำนาย Position
             </button>
           </form>
@@ -247,20 +118,14 @@
     <!-- Result Panel -->
     <div class="col-lg-6">
       <!-- Loading -->
-      <div
-        id="loading-spinner"
-        class="justify-content-center align-items-center py-5"
-      >
+      <div id="loading-spinner" class="justify-content-center align-items-center py-5">
         <div class="spinner-border text-primary me-3" role="status"></div>
         <span class="text-muted">กำลังประมวลผล...</span>
       </div>
 
       <!-- Placeholder -->
-      <div
-        id="result-placeholder"
-        class="card h-100 d-flex justify-content-center align-items-center text-muted"
-        style="min-height: 300px"
-      >
+      <div id="result-placeholder" class="card h-100 d-flex justify-content-center align-items-center text-muted"
+        style="min-height: 300px">
         <div class="text-center p-4">
           <i class="bi bi-arrow-left-circle fs-1 mb-3 d-block opacity-50"></i>
           <p>กรอก stats แล้วกดปุ่ม "ทำนาย Position"</p>

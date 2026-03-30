@@ -1,26 +1,49 @@
-{% extends "base.html" %} {% block title %}Machine Learning{% endblock %} {%
-block content %}
-<!-- Hero -->
-<div class="hero-section hero-ml">
-  <div class="container text-center">
-    <h1><i class="bi bi-diagram-3 me-3"></i>Ensemble Machine Learning</h1>
-    <p class="lead">
-      FIFA 21 Player Position Classification — GK / DEF / MID / FWD
-    </p>
-  </div>
-</div>
+{% extends "base.html" %} {% block title %}ML Docs{% endblock %} {% block content %}
 
-<div class="container pb-5">
-  <!-- Dataset -->
-  <section class="mb-5">
-    <h2 class="section-heading">
-      <i class="bi bi-database me-2 text-success"></i>Dataset: FIFA 21 Messy Raw
-    </h2>
-    <div class="card">
-      <div class="card-body">
+<div class="docs-wrapper">
+  <div class="container" style="max-width: 860px;">
+
+    <!-- Title -->
+    <div class="doc-title-box">
+      <div class="doc-title-icon ml-icon">
+        <i class="bi bi-diagram-3 text-white"></i>
+      </div>
+      <div class="doc-title-text ml">
+        <h1>Machine Learning Documentation</h1>
+      </div>
+    </div>
+
+    <!-- Information -->
+    <div class="doc-section">
+      <h2 class="doc-heading">
+        <span class="doc-heading-icon info"><i class="bi bi-info-circle-fill"></i></span>
+        Information
+      </h2>
+      <div class="doc-card">
+        <p>
+          โมเดลนี้เกี่ยวกับการจำแนกตำแหน่งผู้เล่นฟุตบอลในเกม FIFA 21
+          โดยใช้ข้อมูลสถิติของผู้เล่น เพื่อทำนายว่าผู้เล่นคนนั้นอยู่ในตำแหน่ง
+          <strong style="color:#ffaaae;">GK</strong> (ผู้รักษาประตู),
+          <strong style="color:#ffaaae;">DEF</strong> (กองหลัง),
+          <strong style="color:#ffaaae;">MID</strong> (กองกลาง) หรือ
+          <strong style="color:#ffaaae;">FWD</strong> (กองหน้า)
+          โดยใช้เทคนิค Ensemble Learning แบบ Stacking ที่รวม Random Forest,
+          XGBoost และ LightGBM เป็น Base Learners และใช้ Logistic Regression
+          เป็น Meta-Learner
+        </p>
+      </div>
+    </div>
+
+    <!-- DataSet -->
+    <div class="doc-section">
+      <h2 class="doc-heading">
+        <span class="doc-heading-icon data"><i class="bi bi-database-fill"></i></span>
+        DataSet
+      </h2>
+      <div class="doc-card">
         <div class="row g-4">
           <div class="col-md-5">
-            <table class="table table-sm table-bordered mb-0">
+            <table class="table table-sm table-bordered mb-0 data-table-card">
               <tbody>
                 <tr>
                   <th>ขนาดข้อมูล</th>
@@ -29,17 +52,18 @@ block content %}
                 <tr>
                   <th>แหล่งที่มา</th>
                   <td>
-                    <a
-                      href="https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      >Kaggle — FIFA 21</a
-                    >
+                    <a href="https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring"
+                      target="_blank" rel="noopener noreferrer">Kaggle — FIFA 21</a>
                   </td>
                 </tr>
                 <tr>
                   <th>Target</th>
-                  <td>Position Group: <code>GK / DEF / MID / FWD</code></td>
+                  <td>Position Group:
+                    <code>GK</code> /
+                    <code>DEF</code> /
+                    <code>MID</code> /
+                    <code>FWD</code>
+                  </td>
                 </tr>
                 <tr>
                   <th>Task</th>
@@ -53,259 +77,289 @@ block content %}
             </table>
           </div>
           <div class="col-md-7">
-            <h6 class="fw-bold text-danger">
+            <h6 class="fw-bold" style="color:#ff8a90;">
               <i class="bi bi-exclamation-triangle me-1"></i>ปัญหาใน Messy Data
             </h6>
-            <ul class="small mb-0">
-              <li>
-                <strong>Height/Weight</strong>: มีทั้ง cm/ft และ kg/lbs ปนกัน
-              </li>
-              <li>
-                <strong>Value/Wage</strong>: format "€1.6M", "€200K"
-                ต้องแปลงเป็น float
-              </li>
+            <ul class="messy-list">
+              <li><strong>Height/Weight</strong>: มีทั้ง cm/ft และ kg/lbs ปนกัน</li>
+              <li><strong>Value/Wage</strong>: format "€1.6M", "€200K" ต้องแปลงเป็น float</li>
               <li><strong>W/F, SM, IR</strong>: มีสัญลักษณ์ ★ ต้องลบออก</li>
-              <li>
-                <strong>Missing Values</strong>: Release Clause, Hits, Loan Date
-                End
-              </li>
-              <li>
-                <strong>Contract</strong>: มีทั้ง date / "Free" / "On Loan"
-                ปนกัน
-              </li>
+              <li><strong>Missing Values</strong>: <span style="color:#ff8a90;">Release Clause, Hits, Loan Date
+                  End</span></li>
+              <li><strong>Contract</strong>: มีทั้ง date / "Free" / "On Loan" ปนกัน</li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Theory -->
-  <section class="mb-5">
-    <h2 class="section-heading">
-      <i class="bi bi-book me-2 text-info"></i>ทฤษฎี Ensemble Learning
-    </h2>
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-3">
-        <div class="card model-card rf h-100">
-          <div class="card-header bg-primary text-white">
-            <i class="bi bi-tree me-2"></i>Random Forest
-          </div>
-          <div class="card-body small">
-            <p>
-              สร้าง Decision Trees หลายต้นด้วย
-              <strong>Bootstrap Sampling</strong> และ
-              <strong>Random Feature Selection</strong> แล้วรวมผลด้วย Majority
-              Vote
-            </p>
-            <p class="mb-1">
-              <strong>ข้อดี:</strong> ทนต่อ Overfitting · ตีความ Feature
-              Importance ได้
-            </p>
-            <code>n_estimators, max_depth, min_samples_split</code>
+    <!-- Theory: Ensemble Learning -->
+    <div class="doc-section">
+      <h2 class="doc-heading">
+        <span class="doc-heading-icon info"><i class="bi bi-book-fill"></i></span>
+        ทฤษฎี Ensemble Learning
+      </h2>
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-3">
+          <div class="theory-card rf">
+            <div class="theory-card-header">
+              <i class="bi bi-tree me-2"></i>Random Forest
+            </div>
+            <div class="theory-card-body">
+              <p>สร้าง Decision Trees หลายต้นด้วย <strong style="color:#ffe0e0;">Bootstrap Sampling</strong> และ <strong
+                  style="color:#ffe0e0;">Random Feature Selection</strong> แล้วรวมผลด้วย Majority Vote</p>
+              <p style="margin-bottom:0.4rem;"><strong style="color:#ffe0e0;">ข้อดี:</strong> ทนต่อ Overfitting · ตีความ
+                Feature Importance ได้</p>
+              <code style="font-size:0.75rem;">n_estimators, max_depth, min_samples_split</code>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="card model-card xgb h-100">
-          <div class="card-header text-white" style="background: #dd8452">
-            <i class="bi bi-lightning me-2"></i>XGBoost
-          </div>
-          <div class="card-body small">
-            <p>
-              Gradient Boosting ที่ optimize ด้วย
-              <strong>Second-Order Taylor Expansion</strong> พร้อม L1/L2
-              Regularization
-            </p>
-            <p class="mb-1">
-              <strong>ข้อดี:</strong> ความแม่นยำสูง · Parallel Training
-            </p>
-            <code>learning_rate, subsample, colsample_bytree</code>
+        <div class="col-md-6 col-lg-3">
+          <div class="theory-card xgb">
+            <div class="theory-card-header">
+              <i class="bi bi-lightning me-2"></i>XGBoost
+            </div>
+            <div class="theory-card-body">
+              <p>Gradient Boosting ที่ optimize ด้วย <strong style="color:#ffe0e0;">Second-Order Taylor
+                  Expansion</strong> พร้อม L1/L2 Regularization</p>
+              <p style="margin-bottom:0.4rem;"><strong style="color:#ffe0e0;">ข้อดี:</strong> ความแม่นยำสูง · Parallel
+                Training</p>
+              <code style="font-size:0.75rem;">learning_rate, subsample, colsample_bytree</code>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="card model-card lgb h-100">
-          <div class="card-header bg-success text-white">
-            <i class="bi bi-speedometer me-2"></i>LightGBM
-          </div>
-          <div class="card-body small">
-            <p>
-              Gradient Boosting แบบ <strong>Leaf-wise Tree Growth</strong> ใช้
-              Histogram เร็วกว่า XGBoost หลายเท่า
-            </p>
-            <p class="mb-1"><strong>ข้อดี:</strong> ฝึกเร็ว · Memory น้อย</p>
-            <code>num_leaves, min_data_in_leaf</code>
+        <div class="col-md-6 col-lg-3">
+          <div class="theory-card lgb">
+            <div class="theory-card-header">
+              <i class="bi bi-speedometer me-2"></i>LightGBM
+            </div>
+            <div class="theory-card-body">
+              <p>Gradient Boosting แบบ <strong style="color:#ffe0e0;">Leaf-wise Tree Growth</strong> ใช้ Histogram
+                เร็วกว่า XGBoost หลายเท่า</p>
+              <p style="margin-bottom:0.4rem;"><strong style="color:#ffe0e0;">ข้อดี:</strong> ฝึกเร็ว · Memory น้อย</p>
+              <code style="font-size:0.75rem;">num_leaves, min_data_in_leaf</code>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="card model-card stack h-100">
-          <div class="card-header bg-danger text-white">
-            <i class="bi bi-stack me-2"></i>Stacking
-          </div>
-          <div class="card-body small">
-            <p>
-              รวม 3 โมเดลข้างต้นเป็น <strong>Base Learners</strong> แล้วใช้
-              <strong>Logistic Regression</strong> เป็น Meta-Learner
-            </p>
-            <p class="mb-1"><strong>ข้อดี:</strong> ใช้จุดแข็งของทุกโมเดล</p>
-            <code>cv=5, stack_method='predict_proba'</code>
+        <div class="col-md-6 col-lg-3">
+          <div class="theory-card stack">
+            <div class="theory-card-header">
+              <i class="bi bi-stack me-2"></i>Stacking
+            </div>
+            <div class="theory-card-body">
+              <p>รวม 3 โมเดลข้างต้นเป็น <strong style="color:#ffe0e0;">Base Learners</strong> แล้วใช้ <strong
+                  style="color:#ffe0e0;">Logistic Regression</strong> เป็น Meta-Learner</p>
+              <p style="margin-bottom:0.4rem;"><strong style="color:#ffe0e0;">ข้อดี:</strong> ใช้จุดแข็งของทุกโมเดล</p>
+              <code style="font-size:0.75rem;">cv=5, stack_method='predict_proba'</code>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Preprocessing Code -->
-  <section class="mb-5">
-    <h2 class="section-heading">
-      <i class="bi bi-code-slash me-2 text-warning"></i>Preprocessing Pipeline
-    </h2>
-    <div class="card">
-      <div class="card-header bg-dark text-light">
-        <i class="bi bi-filetype-py me-2"></i>01_eda_preprocessing.ipynb — FIFA
-        21
+    <!-- Features -->
+    <div class="doc-section">
+      <h2 class="doc-heading">
+        <span class="doc-heading-icon feat"><i class="bi bi-code-slash"></i></span>
+        Features
+      </h2>
+      <div class="doc-card">
+        <ul>
+          <li><strong>Age</strong> (อายุ)</li>
+          <li><strong>Overall</strong> (Rating โดยรวมของผู้เล่น)</li>
+          <li><strong>Potential</strong> (ศักยภาพสูงสุดของผู้เล่น)</li>
+          <li><strong>Value_EUR</strong> (มูลค่าผู้เล่นในตลาด)</li>
+          <li><strong>Wage_EUR</strong> (ค่าจ้างต่อสัปดาห์)</li>
+          <li><strong>Height_cm</strong> (ส่วนสูง)</li>
+          <li><strong>Weight_kg</strong> (น้ำหนัก)</li>
+          <li><strong>Pace</strong> (ความเร็ว)</li>
+          <li><strong>Shooting</strong> (การยิงประตู)</li>
+          <li><strong>Passing</strong> (การส่งบอล)</li>
+          <li><strong>Dribbling</strong> (การเลี้ยงบอล)</li>
+          <li><strong>Defending</strong> (การป้องกัน)</li>
+          <li><strong>Physic</strong> (ความแข็งแกร่งทางร่างกาย)</li>
+          <li><strong>W/F</strong> (ความสามารถเท้าอ่อน 1–5 ★)</li>
+          <li><strong>SM</strong> (ระดับ Skill Moves 1–5 ★)</li>
+          <li><strong>IR</strong> (ชื่อเสียงระดับนานาชาติ 1–5 ★)</li>
+          <li><strong>Position_Group</strong> (ตำแหน่ง GK / DEF / MID / FWD — Target)</li>
+        </ul>
       </div>
-      <div class="card-body p-0">
-        <pre class="m-0 rounded-0"><code># แปลง Height → cm
+    </div>
+
+    <!-- Machine Learning Models -->
+    <div class="doc-section">
+      <h2 class="doc-heading">
+        <span class="doc-heading-icon models"><i class="bi bi-graph-up-arrow"></i></span>
+        Machine Learning Models
+      </h2>
+      <div class="doc-card">
+
+        <!-- Step 1: Preprocessing -->
+        <p class="doc-step-desc">
+          ทำการ Data Cleaning และ Data Preprocessing โดยแปลงหน่วย Height/Weight,
+          จัดการค่า Value/Wage จากรูปแบบ €M/€K ให้เป็น float,
+          ลบสัญลักษณ์ ★ ออกจาก W/F, SM, IR และจัดกลุ่ม Position เป็น 4 กลุ่ม
+        </p>
+        <pre><code># 1. แปลง Height → cm
 def parse_height(h):
     if 'cm' in str(h): return float(str(h).replace('cm',''))
     elif "'" in str(h):
         parts = str(h).replace('"','').split("'")
         return round(int(parts[0])*30.48 + int(parts[1] or 0)*2.54, 1)
 
-# แปลง Value/Wage → float
+# 2. แปลง Value/Wage → float  (€1.6M → 1600000)
 def parse_money(val):
     val = str(val).replace('€','')
     if 'M' in val: return float(val.replace('M','')) * 1_000_000
     if 'K' in val: return float(val.replace('K','')) * 1_000
     return float(val)
 
-# ลบ ★ จาก W/F, SM, IR
+# 3. ลบ ★ จาก W/F, SM, IR
 for col in ['W/F','SM','IR']:
     df[col] = df[col].str.replace('★','').str.strip()
     df[col] = pd.to_numeric(df[col], errors='coerce')
 
-# Train/Val/Test Split  70/15/15
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.30, stratify=y)
-X_val,   X_test, y_val,   y_test = train_test_split(X_temp, y_temp, test_size=0.50, stratify=y_temp)</code></pre>
-      </div>
-    </div>
-  </section>
+# 4. จัดกลุ่ม Position → GK / DEF / MID / FWD
+position_map = {
+    'GK': 'GK',
+    'CB':'DEF','LB':'DEF','RB':'DEF','LWB':'DEF','RWB':'DEF',
+    'CM':'MID','CDM':'MID','CAM':'MID','LM':'MID','RM':'MID',
+    'ST':'FWD','CF':'FWD','LW':'FWD','RW':'FWD','LS':'FWD','RS':'FWD'
+}
+df['Position_Group'] = df['Best Position'].map(position_map)
+df.dropna(subset=['Position_Group'], inplace=True)
 
-  <!-- Metrics / Charts -->
-  <section class="mb-5">
-    <h2 class="section-heading">
-      <i class="bi bi-bar-chart me-2 text-danger"></i>ผลลัพธ์โมเดล
-    </h2>
-    <div class="alert alert-warning small" role="alert">
-      <i class="bi bi-info-circle me-1"></i>รัน
-      <strong>02_ensemble_ml.ipynb</strong> ก่อนเพื่อ generate ภาพด้านล่าง
-    </div>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">Confusion Matrices</div>
-          <div class="card-body text-center">
-            <img
-              src="{{ url_for('static', filename='images/ml_confusion_matrix.png') }}"
-              alt="Confusion Matrix"
-              class="img-fluid rounded"
-              onerror="
-                this.replaceWith(
-                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
-                )
-              "
-            />
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">Feature Importance</div>
-          <div class="card-body text-center">
-            <img
-              src="{{ url_for('static', filename='images/ml_feature_importance.png') }}"
-              alt="Feature Importance"
-              class="img-fluid rounded"
-              onerror="
-                this.replaceWith(
-                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
-                )
-              "
-            />
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">Model Comparison</div>
-          <div class="card-body text-center">
-            <img
-              src="{{ url_for('static', filename='images/ml_model_comparison.png') }}"
-              alt="Model Comparison"
-              class="img-fluid rounded"
-              onerror="
-                this.replaceWith(
-                  document.createTextNode('ยังไม่มีภาพ — รัน notebook ก่อน')
-                )
-              "
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+# 5. กำหนด X และ y
+features = ['Age','Overall','Potential','Value_EUR','Wage_EUR',
+            'Height_cm','Weight_kg','Pace','Shooting','Passing',
+            'Dribbling','Defending','Physic','W/F','SM','IR']
+X = df[features]
+y = df['Position_Group']</code></pre>
 
-  <!-- References -->
-  <section class="mb-3">
-    <h2 class="section-heading">
-      <i class="bi bi-journal-text me-2"></i>อ้างอิง
-    </h2>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <a
-          href="https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring"
-          target="_blank"
-          rel="noopener noreferrer"
-          >FIFA 21 Messy Raw Dataset — Kaggle</a
-        >
-      </li>
-      <li class="list-group-item">
-        <a
-          href="https://scikit-learn.org/stable/modules/ensemble.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          >scikit-learn: Ensemble Methods Documentation</a
-        >
-      </li>
-      <li class="list-group-item">
-        <a
-          href="https://xgboost.readthedocs.io/en/stable/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >XGBoost Documentation</a
-        >
-      </li>
-      <li class="list-group-item">
-        <a
-          href="https://lightgbm.readthedocs.io/en/latest/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >LightGBM Documentation</a
-        >
-      </li>
-      <li class="list-group-item">
-        Chen, T. & Guestrin, C. (2016).
-        <em>XGBoost: A Scalable Tree Boosting System</em>. KDD 2016.
-      </li>
-      <li class="list-group-item">
-        Ke, G. et al. (2017).
-        <em>LightGBM: A Highly Efficient Gradient Boosting Decision Tree</em>.
-        NeurIPS 2017.
-      </li>
-    </ul>
-  </section>
+        <!-- Step 2: Split -->
+        <p class="doc-step-desc">ทำการ Split Data ที่จะ Train, Validation และ Test</p>
+        <pre><code># Split  Train 70% / Val 15% / Test 15%
+X_train, X_temp, y_train, y_temp = train_test_split(
+    X, y, test_size=0.30, stratify=y, random_state=42
+)
+X_val, X_test, y_val, y_test = train_test_split(
+    X_temp, y_temp, test_size=0.50, stratify=y_temp, random_state=42
+)
+
+# Scaling
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_val   = scaler.transform(X_val)
+X_test  = scaler.transform(X_test)</code></pre>
+
+        <!-- Step 3: Build & Train -->
+        <p class="doc-step-desc">
+          ทำการสร้าง Random Forest, XGBoost, LightGBM เพื่อ Stacking และ Train โมเดล
+        </p>
+        <pre><code># สร้าง Base Learners
+rf  = RandomForestClassifier(n_estimators=200, max_depth=20, random_state=42)
+xgb = XGBClassifier(n_estimators=300, learning_rate=0.05,
+                    max_depth=6, random_state=42, eval_metric='mlogloss')
+lgb = LGBMClassifier(n_estimators=300, learning_rate=0.05,
+                     num_leaves=63, random_state=42)
+
+# Stacking Classifier (Meta-Learner = Logistic Regression)
+model = StackingClassifier(
+    estimators=[('rf', rf), ('xgb', xgb), ('lgb', lgb)],
+    final_estimator=LogisticRegression(max_iter=1000),
+    cv=5,
+    stack_method='predict_proba'
+)
+
+# เทรนโมเดล
+model.fit(X_train, y_train)
+
+# ประเมินผล
+y_pred = model.predict(X_test)
+print(f"--- 📊 ผลการทดสอบ Stacking Model ---")
+print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+print(classification_report(y_test, y_pred))</code></pre>
+
+        <!-- Result Images -->
+        <p class="doc-step-desc">ผลลัพธ์โมเดล</p>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="img-panel">
+              <div class="img-panel-header">Confusion Matrices</div>
+              <div class="text-center p-2">
+                <img src="{{ url_for('static', filename='images/ml_confusion_matrix.png') }}" alt="Confusion Matrix"
+                  class="img-fluid rounded" onerror="this.replaceWith(Object.assign(document.createElement('p'),
+                    {textContent:'ยังไม่มีภาพ — รัน notebook ก่อน',
+                     className:'text-warning small p-3 mb-0'}))" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="img-panel">
+              <div class="img-panel-header">Feature Importance</div>
+              <div class="text-center p-2">
+                <img src="{{ url_for('static', filename='images/ml_feature_importance.png') }}" alt="Feature Importance"
+                  class="img-fluid rounded" onerror="this.replaceWith(Object.assign(document.createElement('p'),
+                    {textContent:'ยังไม่มีภาพ — รัน notebook ก่อน',
+                     className:'text-warning small p-3 mb-0'}))" />
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="img-panel">
+              <div class="img-panel-header">Model Comparison</div>
+              <div class="text-center p-2">
+                <img src="{{ url_for('static', filename='images/ml_model_comparison.png') }}" alt="Model Comparison"
+                  class="img-fluid rounded" onerror="this.replaceWith(Object.assign(document.createElement('p'),
+                    {textContent:'ยังไม่มีภาพ — รัน notebook ก่อน',
+                     className:'text-warning small p-3 mb-0'}))" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- References -->
+    <div class="doc-section">
+      <h2 class="doc-heading">
+        <span class="doc-heading-icon feat"><i class="bi bi-journal-text"></i></span>
+        อ้างอิง
+      </h2>
+      <div class="ref-panel">
+        <div class="ref-panel-item">
+          <a href="https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring"
+            target="_blank" rel="noopener noreferrer">
+            FIFA 21 Messy Raw Dataset — Kaggle
+          </a>
+        </div>
+        <div class="ref-panel-item">
+          <a href="https://scikit-learn.org/stable/modules/ensemble.html" target="_blank" rel="noopener noreferrer">
+            scikit-learn: Ensemble Methods Documentation
+          </a>
+        </div>
+        <div class="ref-panel-item">
+          <a href="https://xgboost.readthedocs.io/en/stable/" target="_blank" rel="noopener noreferrer">
+            XGBoost Documentation
+          </a>
+        </div>
+        <div class="ref-panel-item">
+          <a href="https://lightgbm.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer">
+            LightGBM Documentation
+          </a>
+        </div>
+        <div class="ref-panel-item">
+          <span class="ref-panel-text">Chen, T. &amp; Guestrin, C. (2016). <em>XGBoost: A Scalable Tree Boosting
+              System</em>. KDD 2016.</span>
+        </div>
+        <div class="ref-panel-item">
+          <span class="ref-panel-text">Ke, G. et al. (2017). <em>LightGBM: A Highly Efficient Gradient Boosting Decision
+              Tree</em>. NeurIPS 2017.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 {% endblock %}
