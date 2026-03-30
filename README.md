@@ -1,6 +1,6 @@
 # ⚽ Football ML Classification
 
-> IS Project | Classification | Python + Flask + TensorFlow
+> IS Project
 
 ---
 
