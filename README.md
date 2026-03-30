@@ -18,7 +18,7 @@ football_ml/
 ├── models/               ← ไฟล์โมเดลที่เทรนแล้ว
 ├── app/
 │   ├── app.py            ← Flask application
-│   ├── templates/        ← HTML templates (4 หน้า)
+│   ├── templates/        ← HTML templates (6 หน้า)
 │   └── static/           ← CSS + Images
 ├── requirements.txt
 ├── Procfile
@@ -151,9 +151,9 @@ git push
 
 ---
 
-## 👥 ทีม
+## 👥 สมาชิก sec.3
 
-| คนที่   | ความรับผิดชอบ                                                   |
-| ------- | --------------------------------------------------------------- |
-| คนที่ 1 | FIFA 21 preprocessing + Ensemble ML + หน้า ML + Demo ML         |
-| คนที่ 2 | EPL preprocessing + Neural Network + หน้า NN + Demo NN + Deploy |
+| คนที่ |       ชื่อ-นามสกุล       |   รหัสนักศึกษา   |
+|-----|-----------------------|----------------|
+|  1  |  นางสาวณัฏฐณิชา โสธารัตน์ | 6704062610119 |
+|  2  | นางสาวสุทธิกานต์ ล้ำวาสนา | 6704062612081 |
