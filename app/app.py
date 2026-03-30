@@ -117,7 +117,8 @@ def _StartNNWarmup():
 @app.route('/')
 def Index():
     _StartMLWarmup()
-    return render_template('ml-explanation.html')
+    _StartNNWarmup()
+    return render_template('home.html')
 
 @app.route('/favicon.ico')
 def Favicon():

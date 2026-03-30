@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="hero-section text-center text-lg-start" style="padding: 40px 0 60px; border-bottom: none; background: transparent;">
+  <div class="container mt-4 mb-2">
+    <div class="row align-items-center" style="min-height: 55vh;">
+      <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
+        <span class="hero-chip" style="margin-bottom: 1.5rem;">
+          <i class="bi bi-stars text-warning me-1"></i> Welcome to Football Project
+        </span>
+        <h1 class="display-4 fw-black mb-4" style="font-weight: 800; line-height: 1.15; color: var(--text-main);">
+          Predict Matches with <br/>
+          <span style="color: var(--red); position: relative; display: inline-block;">
+            Machine Learning
+            <svg width="100%" height="15" viewBox="0 0 100 15" preserveAspectRatio="none" style="position: absolute; bottom: -5px; left: 0; z-index: -1; opacity: 0.6;">
+              <path d="M0 10 Q 50 0 100 10" fill="none" stroke="#fbd914" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </h1>
+        <p class="lead mb-5" style="font-size: 1.15rem; line-height: 1.7; color: var(--text-sub);">
+          Leverage the power of Ensemble Learning and Neural Networks to deeply analyze football statistics and predict outcomes with robust precision.
+        </p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+          <a href="/demo/ml" class="btn-glass-red text-decoration-none d-flex align-items-center justify-content-center gap-2" style="border-radius: 8px;">
+            <i class="bi bi-play-circle-fill"></i> Try ML Demo
+          </a>
+          <a href="/demo/nn" class="btn-glass text-decoration-none px-4 py-2 d-flex align-items-center justify-content-center gap-2" 
+             style="font-size: 0.9rem; font-weight: 700; border-radius: 8px; border-color: rgba(251, 217, 20, 0.35); color: #fbd914 !important; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.8px;">
+            <i class="bi bi-lightning-charge-fill"></i> Try NN Demo
+          </a>
+        </div>
+      </div>
+      
+      <div class="col-lg-6 position-relative text-center mt-4 mt-lg-0">
+        <!-- Decorative Elements -->
+        <div class="position-absolute" style="top: -20px; right: 20px; width: 120px; height: 120px; background: rgba(251, 217, 20, 0.15); border-radius: 50%; filter: blur(35px); z-index: 0;"></div>
+        <div class="position-absolute" style="bottom: -20px; left: 20px; width: 140px; height: 140px; background: rgba(230, 57, 70, 0.2); border-radius: 50%; filter: blur(40px); z-index: 0;"></div>
+        
+        <div class="card p-5 border-0 shadow-lg text-center" style="position: relative; z-index: 1;">
+          <div class="mb-4 d-inline-flex justify-content-center align-items-center rounded-circle mx-auto" 
+               style="width: 120px; height: 120px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(251, 217, 20, 0.25); box-shadow: 0 0 20px rgba(251, 217, 20, 0.1);">
+            <i class="bi bi-trophy-fill" style="font-size: 4.5rem; color: #fbd914; filter: drop-shadow(0px 4px 12px rgba(251, 217, 20, 0.4));"></i>
+          </div>
+          <h3 class="fw-bold mb-3" style="color: var(--text-main);">Data-Driven Football Analysis</h3>
+          <p class="mb-0 mx-auto" style="max-width: 400px; color: var(--text-sub);">
+            Explore theoretical explanations and interact with live predictive models to understand data analysis in football.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container pb-5 mt-3">
+  <div class="row g-4 justify-content-center">
+    <div class="col-md-6">
+      <a href="/ml" class="text-decoration-none">
+        <div class="card h-100 p-4 feature-card">
+          <div class="card-body p-2 d-flex flex-column h-100">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-box me-3 rounded-3 d-flex align-items-center justify-content-center" 
+                   style="background: rgba(230, 57, 70, 0.12); color: var(--red); width: 64px; height: 64px; border: 1px solid rgba(230, 57, 70, 0.25);">
+                <i class="bi bi-diagram-3 fs-3"></i>
+              </div>
+              <h4 class="mb-0 fw-bold" style="color: var(--text-main);">Machine Learning</h4>
+            </div>
+            <p class="mb-4 flex-grow-1" style="color: var(--text-sub); line-height: 1.6;">Discover how we process features and utilize ensemble models like Random Forest and Gradient Boosting to classify match outcomes.</p>
+            <div class="mt-auto d-flex align-items-center fw-bold" style="color: var(--red); font-size: 0.95rem;">
+              Read Explanation <i class="bi bi-arrow-right ms-2 transition-icon"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    
+    <div class="col-md-6">
+      <a href="/nn" class="text-decoration-none">
+        <div class="card h-100 p-4 feature-card nn-card">
+          <div class="card-body p-2 d-flex flex-column h-100">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-box me-3 rounded-3 d-flex align-items-center justify-content-center" 
+                   style="background: rgba(251, 217, 20, 0.12); color: #fbd914; width: 64px; height: 64px; border: 1px solid rgba(251, 217, 20, 0.25);">
+                <i class="bi bi-cpu fs-3"></i>
+              </div>
+              <h4 class="mb-0 fw-bold" style="color: var(--text-main);">Neural Network</h4>
+            </div>
+            <p class="mb-4 flex-grow-1" style="color: var(--text-sub); line-height: 1.6;">Dive into the architecture of our deep learning model built with TensorFlow, understanding layers, activation functions, and training.</p>
+            <div class="mt-auto d-flex align-items-center fw-bold" style="color: #fbd914; font-size: 0.95rem;">
+              Read Explanation <i class="bi bi-arrow-right ms-2 transition-icon"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .feature-card .transition-icon {
+    transition: transform 0.3s ease;
+  }
+  .feature-card:hover .transition-icon {
+    transform: translateX(6px);
+  }
+  .feature-card {
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05); /* very soft default border */
+  }
+  .feature-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(230, 57, 70, 0.4) !important;
+    box-shadow: 0 12px 35px rgba(230, 57, 70, 0.12) !important;
+  }
+  
+  /* Hover variant for NN card */
+  .feature-card.nn-card:hover {
+    border-color: rgba(251, 217, 20, 0.4) !important;
+    box-shadow: 0 12px 35px rgba(251, 217, 20, 0.1) !important;
+  }
+  
+  a[href="/demo/nn"].btn-glass:hover {
+    background: rgba(251, 217, 20, 0.15) !important;
+    border-color: rgba(251, 217, 20, 0.8) !important;
+    box-shadow: 0 4px 15px rgba(251, 217, 20, 0.2) !important;
+    transform: translateY(-2px);
+  }
+</style>
+{% endblock %}
