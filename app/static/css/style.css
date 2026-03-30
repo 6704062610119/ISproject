@@ -1244,11 +1244,11 @@ h6 {
 }
 
 .data-table-card th {
-  background: rgba(230, 57, 70, 0.06) !important;
-  color: var(--red-dark) !important;
+  background: rgba(230, 57, 70, 0.12) !important;
+  color: var(--red-bright) !important;
   font-family: var(--font-display);
   font-weight: 700;
-  border-color: rgba(230, 57, 70, 0.08) !important;
+  border-color: rgba(230, 57, 70, 0.15) !important;
   white-space: nowrap;
 }
 
@@ -1307,13 +1307,13 @@ h6 {
 }
 
 .img-panel-header {
-  background: rgba(230, 57, 70, 0.06);
+  background: rgba(230, 57, 70, 0.12);
   padding: 0.52rem 1rem;
   font-family: var(--font-display);
   font-size: 0.76rem;
-  color: var(--red-dark);
+  color: var(--red-bright);
   font-weight: 700;
-  border-bottom: 1px solid rgba(230, 57, 70, 0.08);
+  border-bottom: 1px solid rgba(230, 57, 70, 0.15);
   letter-spacing: 0.4px;
   text-transform: uppercase;
 }
