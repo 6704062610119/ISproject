@@ -11,6 +11,25 @@
 |  1  |  นางสาวณัฏฐณิชา โสธารัตน์ | 6704062610119 |
 |  2  | นางสาวสุทธิกานต์ ล้ำวาสนา | 6704062612081 |
 
+---
+
+## 🤖 โมเดล
+
+| โมเดล                  | Dataset     | Task                            | Library                         |
+| ---------------------- | ----------- | ------------------------------- | ------------------------------- |
+| Ensemble ML (Stacking) | FIFA 21     | Player Position: GK/DEF/MID/FWD | scikit-learn, XGBoost, LightGBM |
+| Neural Network (MLP)   | EPL Matches | Match Result: Win/Draw/Loss     | TensorFlow/Keras                |
+
+---
+
+## 🌐 Web Application (4 หน้า)
+
+| หน้า             | URL        | เนื้อหา                          |
+| ---------------- | ---------- | -------------------------------- |
+| Machine Learning | `/ml`      | ทฤษฎี + Preprocessing + Metrics  |
+| Neural Network   | `/nn`      | ทฤษฎี + Architecture + Results   |
+| Demo ML          | `/demo/ml` | กรอก FIFA stats → ทำนาย Position |
+| Demo NN          | `/demo/nn` | กรอก EPL stats → ทำนายผลแข่ง     |
 
 ---
 
@@ -138,23 +157,3 @@ git push
 
 - เข้าไปที่ `Environment` แล้วเพิ่มตัวแปร `PYTHON_VERSION=3.11.11`
 - จากนั้นกด `Manual Deploy` หรือ `Clear build cache & deploy` ใหม่อีกครั้ง
-
----
-
-## 🤖 โมเดล
-
-| โมเดล                  | Dataset     | Task                            | Library                         |
-| ---------------------- | ----------- | ------------------------------- | ------------------------------- |
-| Ensemble ML (Stacking) | FIFA 21     | Player Position: GK/DEF/MID/FWD | scikit-learn, XGBoost, LightGBM |
-| Neural Network (MLP)   | EPL Matches | Match Result: Win/Draw/Loss     | TensorFlow/Keras                |
-
----
-
-## 🌐 Web Application (4 หน้า)
-
-| หน้า             | URL        | เนื้อหา                          |
-| ---------------- | ---------- | -------------------------------- |
-| Machine Learning | `/ml`      | ทฤษฎี + Preprocessing + Metrics  |
-| Neural Network   | `/nn`      | ทฤษฎี + Architecture + Results   |
-| Demo ML          | `/demo/ml` | กรอก FIFA stats → ทำนาย Position |
-| Demo NN          | `/demo/nn` | กรอก EPL stats → ทำนายผลแข่ง     |
