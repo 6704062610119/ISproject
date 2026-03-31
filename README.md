@@ -1,6 +1,6 @@
 # ⚽ Football ML Classification
 
-> IS Project: link web --> https://isproject-qghj.onrender.com
+> IS Project: link web --> https://isproject-qghj.onrender.com/
 
 ---
 
